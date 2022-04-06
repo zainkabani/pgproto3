@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/zainkabani/pgproto3/v2"
+	"github.com/zainkabani/pgproto3/v3"
 )
 
 func TestEncodeDecode(t *testing.T) {

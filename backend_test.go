@@ -7,7 +7,7 @@ import (
 	"github.com/jackc/pgio"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/zainkabani/pgproto3/v2"
+	"github.com/zainkabani/pgproto3/v3"
 )
 
 func TestBackendReceiveInterrupted(t *testing.T) {
