@@ -1,4 +1,4 @@
-[![](https://godoc.org/github.com/jackc/pgproto3?status.svg)](https://godoc.org/github.com/jackc/pgproto3)
+[![](https://godoc.org/github.com/zainkabani/pgproto3?status.svg)](https://godoc.org/github.com/zainkabani/pgproto3)
 [![Build Status](https://travis-ci.org/jackc/pgproto3.svg)](https://travis-ci.org/jackc/pgproto3)
 
 # pgproto3

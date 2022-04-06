@@ -3,8 +3,8 @@ package pgproto3_test
 import (
 	"testing"
 
-	"github.com/jackc/pgproto3/v2"
 	"github.com/stretchr/testify/assert"
+	"github.com/zainkabani/pgproto3/v2"
 )
 
 func TestEncodeDecode(t *testing.T) {

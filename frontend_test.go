@@ -4,9 +4,9 @@ import (
 	"io"
 	"testing"
 
-	"github.com/jackc/pgproto3/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/zainkabani/pgproto3/v2"
 )
 
 type interruptReader struct {
