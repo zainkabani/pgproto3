@@ -1,4 +1,4 @@
-module github.com/zainkabani/pgproto3/v2
+module github.com/zainkabani/pgproto3/v3
 
 go 1.12
 
