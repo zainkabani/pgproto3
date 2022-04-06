@@ -43,7 +43,7 @@ type Frontend struct {
 	portalSuspended                 PortalSuspended
 
 	bodyLen    int
-	msgType    byte
+	MsgType    byte
 	partialMsg bool
 	authType   uint32
 }
@@ -74,7 +74,7 @@ func (f *Frontend) Receive() (BackendMessage, error) {
 			return nil, translateEOFtoErrUnexpectedEOF(err)
 		}
 
-		f.msgType = header[0]
+		f.MsgType = header[0]
 		f.bodyLen = int(binary.BigEndian.Uint32(header[1:])) - 4
 		f.partialMsg = true
 	}
@@ -87,7 +87,7 @@ func (f *Frontend) Receive() (BackendMessage, error) {
 	f.partialMsg = false
 
 	var msg BackendMessage
-	switch f.msgType {
+	switch f.MsgType {
 	case '1':
 		msg = &f.parseComplete
 	case '2':
@@ -139,7 +139,7 @@ func (f *Frontend) Receive() (BackendMessage, error) {
 	case 'Z':
 		msg = &f.readyForQuery
 	default:
-		return nil, fmt.Errorf("unknown message type: %c", f.msgType)
+		return nil, fmt.Errorf("unknown message type: %c", f.MsgType)
 	}
 
 	err = msg.Decode(msgBody)

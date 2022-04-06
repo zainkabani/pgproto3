@@ -30,11 +30,10 @@ type Backend struct {
 	sync           Sync
 	terminate      Terminate
 
-	bodyLen      int
-	msgType      byte
-	partialMsg   bool
-	authType     uint32
-	
+	bodyLen    int
+	MsgType    byte
+	partialMsg bool
+	authType   uint32
 }
 
 const (
@@ -80,24 +79,28 @@ func (b *Backend) ReceiveStartupMessage() (FrontendMessage, error) {
 		if err != nil {
 			return nil, err
 		}
+		b.MsgType = '@'
 		return &b.startupMessage, nil
 	case sslRequestNumber:
 		err = b.sslRequest.Decode(buf)
 		if err != nil {
 			return nil, err
 		}
+		b.MsgType = '!'
 		return &b.sslRequest, nil
 	case cancelRequestCode:
 		err = b.cancelRequest.Decode(buf)
 		if err != nil {
 			return nil, err
 		}
+		b.MsgType = '&'
 		return &b.cancelRequest, nil
 	case gssEncReqNumber:
 		err = b.gssEncRequest.Decode(buf)
 		if err != nil {
 			return nil, err
 		}
+		b.MsgType = '^'
 		return &b.gssEncRequest, nil
 	default:
 		return nil, fmt.Errorf("unknown startup message code: %d", code)
@@ -112,13 +115,13 @@ func (b *Backend) Receive() (FrontendMessage, error) {
 			return nil, translateEOFtoErrUnexpectedEOF(err)
 		}
 
-		b.msgType = header[0]
+		b.MsgType = header[0]
 		b.bodyLen = int(binary.BigEndian.Uint32(header[1:])) - 4
 		b.partialMsg = true
 	}
 
 	var msg FrontendMessage
-	switch b.msgType {
+	switch b.MsgType {
 	case 'B':
 		msg = &b.bind
 	case 'C':
@@ -160,7 +163,7 @@ func (b *Backend) Receive() (FrontendMessage, error) {
 	case 'X':
 		msg = &b.terminate
 	default:
-		return nil, fmt.Errorf("unknown message type: %c", b.msgType)
+		return nil, fmt.Errorf("unknown message type: %c", b.MsgType)
 	}
 
 	msgBody, err := b.cr.Next(b.bodyLen)
