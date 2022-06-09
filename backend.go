@@ -31,7 +31,7 @@ type Backend struct {
 	terminate      Terminate
 
 	bodyLen    int
-	msgType    byte
+	MsgType    byte
 	partialMsg bool
 	authType   uint32
 }
@@ -111,13 +111,13 @@ func (b *Backend) Receive() (FrontendMessage, error) {
 			return nil, translateEOFtoErrUnexpectedEOF(err)
 		}
 
-		b.msgType = header[0]
+		b.MsgType = header[0]
 		b.bodyLen = int(binary.BigEndian.Uint32(header[1:])) - 4
 		b.partialMsg = true
 	}
 
 	var msg FrontendMessage
-	switch b.msgType {
+	switch b.MsgType {
 	case 'B':
 		msg = &b.bind
 	case 'C':
@@ -161,7 +161,7 @@ func (b *Backend) Receive() (FrontendMessage, error) {
 	case 'X':
 		msg = &b.terminate
 	default:
-		return nil, fmt.Errorf("unknown message type: %c", b.msgType)
+		return nil, fmt.Errorf("unknown message type: %c", b.MsgType)
 	}
 
 	msgBody, err := b.cr.Next(b.bodyLen)
